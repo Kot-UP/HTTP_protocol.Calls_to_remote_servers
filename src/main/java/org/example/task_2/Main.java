@@ -9,7 +9,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.example.task_1.Post;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -31,13 +30,18 @@ public class Main {
 
         // создаем объект запроса с произвольными заголовками
         HttpGet request = new HttpGet(NASA);
-        //request.setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
+        request.setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
         // отправка запроса
         CloseableHttpResponse response = httpClient.execute(request);
 
-        List<Post> posts = mapper.readValue(response.getEntity().getContent(), new TypeReference<List<Post>>() {});
-        posts.forEach(System.out::print);
+        String body = new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+        System.out.println(body);
+
+        Post nasa = mapper.readValue(body, Post.class);
+        System.out.println(nasa);
+//        List<Post> posts = mapper.readValue(response.getEntity().getContent(), new TypeReference<List<Post>>() {});
+//        posts.forEach(System.out::print);
 
     }
 }

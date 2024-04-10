@@ -35,8 +35,9 @@ public class Main {
         //Arrays.stream(response.getAllHeaders()).forEach(System.out::println);
 
         // чтение тела ответа
-        //String body = new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
-        //System.out.println(body);
+//        String body = new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+//        System.out.println(body);
+
         List<Post> posts = mapper.readValue(response.getEntity().getContent(), new TypeReference<List<Post>>() {});
         posts.stream()
                 .filter(value -> value.getUpvotes() > 0)
